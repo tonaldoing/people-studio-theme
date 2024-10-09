@@ -439,6 +439,8 @@ __webpack_require__.r(__webpack_exports__);
     },
     services: {
       type: 'array',
+      source: 'query',
+      selector: '.service-card',
       default: [{
         image: null,
         title: 'Service 1',
@@ -454,7 +456,30 @@ __webpack_require__.r(__webpack_exports__);
         title: 'Service 3',
         subtitle: 'Subtitle 3',
         text: 'Description for service 3'
-      }]
+      }],
+      query: {
+        image: {
+          type: 'string',
+          source: 'attribute',
+          selector: 'img',
+          attribute: 'src'
+        },
+        title: {
+          type: 'string',
+          source: 'html',
+          selector: 'h3'
+        },
+        subtitle: {
+          type: 'string',
+          source: 'html',
+          selector: 'h4'
+        },
+        text: {
+          type: 'string',
+          source: 'html',
+          selector: 'p'
+        }
+      }
     },
     service1Image: {
       type: 'string',
@@ -482,7 +507,10 @@ __webpack_require__.r(__webpack_exports__);
     } = attributes;
     const updateService = (index, field, value) => {
       const updatedServices = [...services];
-      updatedServices[index][field] = value;
+      updatedServices[index] = {
+        ...updatedServices[index],
+        [field]: value
+      };
       setAttributes({
         services: updatedServices
       });
@@ -566,10 +594,24 @@ __webpack_require__.r(__webpack_exports__);
       className: "font-bold text-4xl mb-8",
       placeholder: "Enter section title"
     }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      className: "service-navigation md:hidden flex justify-center space-x-4 mb-8"
+    }, services.map((service, index) => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+      key: index,
+      onClick: () => {
+        const serviceElement = document.getElementById(`service-${index + 1}`);
+        if (serviceElement) {
+          serviceElement.scrollIntoView({
+            behavior: 'smooth'
+          });
+        }
+      },
+      className: "text-xs font-medium px-4 py-2 border-1 border-[#1C3145] text-[#1C3145] rounded hover:bg-[#1C3145] hover:text-white transition"
+    }, service.title))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       className: "grid grid-cols-1 md:grid-cols-3 gap-8"
     }, services.map((service, index) => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       className: "service-card bg-gray-100 rounded-lg shadow-lg",
-      key: index
+      key: index,
+      id: `service-${index + 1}`
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       className: "mb-4"
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
@@ -582,7 +624,7 @@ __webpack_require__.r(__webpack_exports__);
       tagName: "h3",
       value: service.title,
       onChange: value => updateService(index, 'title', value),
-      className: "font-bold text-xl mb-2",
+      className: "font-bold text-xl mb-2 text-[#1C3145]",
       placeholder: "Service Title"
     }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.RichText, {
       tagName: "h4",
@@ -595,18 +637,9 @@ __webpack_require__.r(__webpack_exports__);
       value: service.text,
       onChange: value => updateService(index, 'text', value),
       placeholder: "Service Description",
-      allowedFormats: ['core/bold'] // Esto permite formatear como negrita
-      ,
+      allowedFormats: ['core/bold'],
       className: "text-base"
-    }))))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-      className: "sticky bottom-0 left-0 w-full bg-white py-2 md:hidden flex justify-around border-t border-gray-300"
-    }, services.map((service, index) => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
-      key: index,
-      onClick: () => document.getElementById(`service-${index + 1}`).scrollIntoView({
-        behavior: 'smooth'
-      }),
-      className: "font-medium text-sm text-gray-700 hover:text-gray-900 transition"
-    }, service.title)))));
+    })))))));
   },
   save({
     attributes
@@ -624,6 +657,19 @@ __webpack_require__.r(__webpack_exports__);
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", {
       className: "font-bold text-4xl mb-8"
     }, sectionTitle), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      className: "service-navigation md:hidden flex justify-center space-x-4 mb-8"
+    }, services.map((service, index) => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+      key: index,
+      onClick: () => {
+        const serviceElement = document.getElementById(`service-${index + 1}`);
+        if (serviceElement) {
+          serviceElement.scrollIntoView({
+            behavior: 'smooth'
+          });
+        }
+      },
+      className: "text-xs font-medium px-4 py-2 border-1 border-[#1C3145] text-[#1C3145] rounded hover:bg-[#1C3145] hover:text-white transition"
+    }, service.title))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       className: "grid grid-cols-1 md:grid-cols-3 gap-8"
     }, services.map((service, index) => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       className: "service-card bg-gray-100 rounded-lg shadow-lg",
@@ -644,22 +690,14 @@ __webpack_require__.r(__webpack_exports__);
     }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       className: "p-6"
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", {
-      className: "font-bold text-xl mb-2"
+      className: "font-bold text-xl mb-2 text-[#1C3145]"
     }, service.title), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h4", {
       className: "font-bold text-lg mb-2"
     }, service.subtitle), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.RichText.Content, {
       tagName: "p",
       value: service.text,
       className: "text-base"
-    }))))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-      className: "sticky bottom-0 left-0 w-full bg-white py-2 md:hidden flex justify-around border-t border-gray-300"
-    }, services.map((service, index) => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
-      key: index,
-      onClick: () => document.getElementById(`service-${index + 1}`).scrollIntoView({
-        behavior: 'smooth'
-      }),
-      className: "font-medium text-sm text-gray-700 hover:text-gray-900 transition"
-    }, service.title))));
+    }))))));
   }
 });
 
@@ -765,7 +803,10 @@ __webpack_require__.r(__webpack_exports__);
     } = attributes;
     const updateMember = (index, field, value) => {
       const updatedMembers = [...teamMembers];
-      updatedMembers[index][field] = value;
+      updatedMembers[index] = {
+        ...updatedMembers[index],
+        [field]: value
+      };
       setAttributes({
         teamMembers: updatedMembers
       });
@@ -880,15 +921,17 @@ __webpack_require__.r(__webpack_exports__);
       }),
       placeholder: "Enter LinkedIn URL"
     }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-      className: "team-section bg-[#F5F5F5] p-14",
+      className: "team-section bg-[#F5F5F5] p-14 container",
       id: "our-team"
+    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      className: "container mx-auto"
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.RichText, {
       tagName: "h2",
       value: sectionTitle,
       onChange: value => setAttributes({
         sectionTitle: value
       }),
-      className: "font-bold text-4xl text-center mb-12",
+      className: "font-bold text-4xl mb-12",
       placeholder: "Enter section title"
     }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       className: "space-y-12"
@@ -900,7 +943,7 @@ __webpack_require__.r(__webpack_exports__);
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
       src: index === 0 ? member1Image : index === 1 ? member2Image : member3Image,
       alt: `Member ${index + 1}`,
-      className: "w-40 h-40 object-cover rounded-full mb-4 mx-auto"
+      className: "w-60 h-60 object-cover rounded-full mb-4 mx-auto"
     }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       className: "flex space-x-4"
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
@@ -935,7 +978,7 @@ __webpack_require__.r(__webpack_exports__);
       onChange: value => updateMember(index, 'description', value),
       className: "text-base leading-relaxed",
       placeholder: "Enter description"
-    })))))));
+    }))))))));
   },
   save({
     attributes
@@ -956,8 +999,10 @@ __webpack_require__.r(__webpack_exports__);
     return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       className: "team-section bg-[#F5F5F5] p-14",
       id: "our-team"
+    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      className: "container mx-auto"
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", {
-      className: "font-bold text-4xl text-center mb-12"
+      className: "font-bold text-4xl mb-12"
     }, sectionTitle), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       className: "space-y-12"
     }, teamMembers.map((member, index) => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
@@ -968,7 +1013,7 @@ __webpack_require__.r(__webpack_exports__);
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
       src: index === 0 ? member1Image : index === 1 ? member2Image : member3Image,
       alt: `Member ${index + 1}`,
-      className: "w-40 h-40 object-cover rounded-full mb-4 mx-auto"
+      className: "w-60 h-60 object-cover rounded-full mb-4 mx-auto"
     }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       className: "flex space-x-4"
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
@@ -997,7 +1042,7 @@ __webpack_require__.r(__webpack_exports__);
       tagName: "p",
       value: member.description,
       className: "text-base leading-relaxed"
-    }))))));
+    })))))));
   }
 });
 

@@ -10,21 +10,22 @@
             <!-- Email Icon and Text -->
             <div class="flex items-center space-x-2">
                 <div class="rounded-full p-2 border-2 border-white hover:border-blue-500 transition duration-300 hover:bg-blue-500 transform hover:scale-110">
-                    <a href="mailto:example@example.com" class="flex items-center justify-center">
+                    <a href="mailto:ana@peoplestudio.io" class="flex items-center justify-center">
                         <img src="<?php echo get_template_directory_uri(); ?>/assets/png/icon-email.png" alt="Email Icon" class="h-8 w-8">
                     </a>
                 </div>
-                <a href="mailto:example@example.com" class="text-lg" target="_blank">example@example.com</a>
+                <a href="mailto:ana@peoplestudio.io" class="text-lg" target="_blank">ana@peoplestudio.io</a>
             </div>
 
             <!-- LinkedIn Icon and Text -->
             <div class="flex items-center space-x-2">
                 <div class="rounded-full p-2 border-2 border-white hover:border-blue-500 transition duration-300 hover:bg-blue-500 transform hover:scale-110">
-                    <a href="https://linkedin.com" class="flex items-center justify-center">
+                    <a href="https://www.linkedin.com/company/people-studioba/" class="flex items-center justify-center">
                         <img src="<?php echo get_template_directory_uri(); ?>/assets/png/icon-linkedin.png" alt="LinkedIn Icon" class="h-8 w-8">
                     </a>
                 </div>
-                <a href="https://linkedin.com" class="text-lg" target="_blank">linkedin.com/in/example</a>
+                <a href="https://www.linkedin.com/company/people-studioba/" class="text-lg" target="_blank">/people-studioba
+                </a>
             </div>
         </div>
 

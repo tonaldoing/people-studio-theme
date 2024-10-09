@@ -16,11 +16,19 @@ registerBlockType('people-studio/our-services', {
         },
         services: {
             type: 'array',
+            source: 'query',
+            selector: '.service-card',
             default: [
                 { image: null, title: 'Service 1', subtitle: 'Subtitle 1', text: 'Description for service 1' },
                 { image: null, title: 'Service 2', subtitle: 'Subtitle 2', text: 'Description for service 2' },
                 { image: null, title: 'Service 3', subtitle: 'Subtitle 3', text: 'Description for service 3' },
             ],
+            query: {
+                image: { type: 'string', source: 'attribute', selector: 'img', attribute: 'src' },
+                title: { type: 'string', source: 'html', selector: 'h3' },
+                subtitle: { type: 'string', source: 'html', selector: 'h4' },
+                text: { type: 'string', source: 'html', selector: 'p' },
+            },
         },
         service1Image: { type: 'string', default: null },
         service2Image: { type: 'string', default: null },
@@ -31,7 +39,10 @@ registerBlockType('people-studio/our-services', {
 
         const updateService = (index, field, value) => {
             const updatedServices = [...services];
-            updatedServices[index][field] = value;
+            updatedServices[index] = {
+                ...updatedServices[index],
+                [field]: value,
+            };
             setAttributes({ services: updatedServices });
         };
 
@@ -96,9 +107,27 @@ registerBlockType('people-studio/our-services', {
                         placeholder="Enter section title"
                     />
 
+                    {/* Navigation Buttons */}
+                    <div className="service-navigation md:hidden flex justify-center space-x-4 mb-8">
+                        {services.map((service, index) => (
+                            <button
+                                key={index}
+                                onClick={() => {
+                                    const serviceElement = document.getElementById(`service-${index + 1}`);
+                                    if (serviceElement) {
+                                        serviceElement.scrollIntoView({ behavior: 'smooth' });
+                                    }
+                                }}
+                                className="text-xs font-medium px-4 py-2 border-1 border-[#1C3145] text-[#1C3145] rounded hover:bg-[#1C3145] hover:text-white transition"
+                            >
+                                {service.title}
+                            </button>
+                        ))}
+                    </div>
+
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         {services.map((service, index) => (
-                            <div className="service-card bg-gray-100 rounded-lg shadow-lg" key={index}>
+                            <div className="service-card bg-gray-100 rounded-lg shadow-lg" key={index} id={`service-${index + 1}`}>
                                 <div className="mb-4">
                                     <img
                                         src={
@@ -114,7 +143,7 @@ registerBlockType('people-studio/our-services', {
                                         tagName="h3"
                                         value={service.title}
                                         onChange={(value) => updateService(index, 'title', value)}
-                                        className="font-bold text-xl mb-2"
+                                        className="font-bold text-xl mb-2 text-[#1C3145]"
                                         placeholder="Service Title"
                                     />
                                     <RichText
@@ -129,24 +158,11 @@ registerBlockType('people-studio/our-services', {
                                         value={service.text}
                                         onChange={(value) => updateService(index, 'text', value)}
                                         placeholder="Service Description"
-                                        allowedFormats={['core/bold']} // Esto permite formatear como negrita
+                                        allowedFormats={['core/bold']}
                                         className="text-base"
                                     />
                                 </div>
                             </div>
-                        ))}
-                    </div>
-
-                    {/* Navigation for Mobile */}
-                    <div className="sticky bottom-0 left-0 w-full bg-white py-2 md:hidden flex justify-around border-t border-gray-300">
-                        {services.map((service, index) => (
-                            <button
-                                key={index}
-                                onClick={() => document.getElementById(`service-${index + 1}`).scrollIntoView({ behavior: 'smooth' })}
-                                className="font-medium text-sm text-gray-700 hover:text-gray-900 transition"
-                            >
-                                {service.title}
-                            </button>
                         ))}
                     </div>
                 </div>
@@ -160,6 +176,24 @@ registerBlockType('people-studio/our-services', {
             <div className="our-services p-14" id="our-services">
                 <h2 className="font-bold text-4xl mb-8">{sectionTitle}</h2>
 
+                {/* Navigation Buttons */}
+                <div className="service-navigation md:hidden flex justify-center space-x-4 mb-8">
+                    {services.map((service, index) => (
+                        <button
+                            key={index}
+                            onClick={() => {
+                                const serviceElement = document.getElementById(`service-${index + 1}`);
+                                if (serviceElement) {
+                                    serviceElement.scrollIntoView({ behavior: 'smooth' });
+                                }
+                            }}
+                            className="text-xs font-medium px-4 py-2 border-1 border-[#1C3145] text-[#1C3145] rounded hover:bg-[#1C3145] hover:text-white transition"
+                        >
+                            {service.title}
+                        </button>
+                    ))}
+                </div>
+
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {services.map((service, index) => (
                         <div className="service-card bg-gray-100 rounded-lg shadow-lg" key={index} id={`service-${index + 1}`}>
@@ -167,29 +201,15 @@ registerBlockType('people-studio/our-services', {
                             {index === 1 && service2Image && <img src={service2Image} alt="Service 2" className="w-full h-auto mb-4" />}
                             {index === 2 && service3Image && <img src={service3Image} alt="Service 3" className="w-full h-auto mb-4" />}
                             <div className="p-6">
-                                <h3 className="font-bold text-xl mb-2">{service.title}</h3>
+                                <h3 className="font-bold text-xl mb-2 text-[#1C3145]">{service.title}</h3>
                                 <h4 className="font-bold text-lg mb-2">{service.subtitle}</h4>
                                 <RichText.Content
                                     tagName="p"
                                     value={service.text}
                                     className="text-base"
                                 />
-
                             </div>
                         </div>
-                    ))}
-                </div>
-
-                {/* Navigation for Mobile */}
-                <div className="sticky bottom-0 left-0 w-full bg-white py-2 md:hidden flex justify-around border-t border-gray-300">
-                    {services.map((service, index) => (
-                        <button
-                            key={index}
-                            onClick={() => document.getElementById(`service-${index + 1}`).scrollIntoView({ behavior: 'smooth' })}
-                            className="font-medium text-sm text-gray-700 hover:text-gray-900 transition"
-                        >
-                            {service.title}
-                        </button>
                     ))}
                 </div>
             </div>

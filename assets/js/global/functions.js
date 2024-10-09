@@ -84,27 +84,22 @@ jQuery(document).ready(function($) {
     onScroll();
 
         // Función para manejar el clic en los botones de navegación de servicios móviles
-        $('.sticky button').on('click', function() {
+        $('.service-navigation button').on('click', function() {
             // Obtener el índice del botón en el que se hizo clic
             const index = $(this).index();
-            
+
             // Seleccionar la sección correspondiente al índice del botón
             const targetService = $('.service-card').eq(index);
-    
+
             // Verificar que la sección exista y hacer scroll hacia ella
             if (targetService.length) {
-                // Calcular la posición del desplazamiento para que la sección se muestre en la parte baja del viewport
-                const offsetTop = targetService.offset().top;
-                const viewportHeight = $(window).height();
-                const serviceHeight = targetService.outerHeight();
-                const scrollPosition = offsetTop - viewportHeight + serviceHeight + 45;
-    
+                // Calcular la posición del desplazamiento para que la sección se muestre adecuadamente
+                const offsetTop = targetService.offset().top - 70;
+
                 $('html, body').animate({
-                    scrollTop: scrollPosition
+                    scrollTop: offsetTop
                 }, 800); // Duración de la animación en milisegundos
             }
-        });
-    
-    
+        });    
     
 });

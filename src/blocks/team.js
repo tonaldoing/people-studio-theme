@@ -37,7 +37,10 @@ registerBlockType('people-studio/team-section', {
 
         const updateMember = (index, field, value) => {
             const updatedMembers = [...teamMembers];
-            updatedMembers[index][field] = value;
+            updatedMembers[index] = {
+                ...updatedMembers[index],
+                [field]: value,
+            };
             setAttributes({ teamMembers: updatedMembers });
         };
 
@@ -135,14 +138,91 @@ registerBlockType('people-studio/team-section', {
                     </PanelBody>
                 </InspectorControls>
 
-                <div className="team-section bg-[#F5F5F5] p-14" id="our-team">
-                    <RichText
-                        tagName="h2"
-                        value={sectionTitle}
-                        onChange={(value) => setAttributes({ sectionTitle: value })}
-                        className="font-bold text-4xl text-center mb-12"
-                        placeholder="Enter section title"
-                    />
+                <div className="team-section bg-[#F5F5F5] p-14 container" id="our-team">
+                    <div className="container mx-auto">
+                        <RichText
+                            tagName="h2"
+                            value={sectionTitle}
+                            onChange={(value) => setAttributes({ sectionTitle: value })}
+                            className="font-bold text-4xl mb-12"
+                            placeholder="Enter section title"
+                        />
+
+                        <div className="space-y-12">
+                            {teamMembers.map((member, index) => (
+                                <div
+                                    className={`flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-14 ${index % 2 === 1 ? 'md:flex-row-reverse' : ''}`}
+                                    key={index}
+                                >
+                                    {/* Image and Socials */}
+                                    <div className="flex flex-col items-center space-y-4 flex-1">
+                                        <img
+                                            src={
+                                                index === 0 ? member1Image :
+                                                index === 1 ? member2Image : member3Image
+                                            }
+                                            alt={`Member ${index + 1}`}
+                                            className="w-60 h-60 object-cover rounded-full mb-4 mx-auto"
+                                        />
+                                        <div className="flex space-x-4">
+                                            <a
+                                                href={
+                                                    index === 0 ? member1Email :
+                                                    index === 1 ? member2Email : member3Email
+                                                }
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="bg-[#1C3145] text-white w-12 h-12 flex justify-center items-center rounded-full hover:bg-blue-500 transition duration-300 transform hover:scale-110"
+                                            >
+                                                <img src={`${peopleStudioData.templateUrl}/assets/png/icon-email.png`} alt="Email Icon" className="w-6 h-6" />
+                                            </a>
+
+                                            <a
+                                                href={
+                                                    index === 0 ? member1LinkedIn :
+                                                    index === 1 ? member2LinkedIn : member3LinkedIn
+                                                }
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="bg-[#1C3145] text-white w-12 h-12 flex justify-center items-center rounded-full hover:bg-blue-500 transition duration-300 transform hover:scale-110"
+                                            >
+                                                <img src={`${peopleStudioData.templateUrl}/assets/png/icon-linkedin.png`} alt="LinkedIn Icon" className="w-6 h-6" />
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    {/* Name and Description */}
+                                    <div className="text-left md:text-left text-center flex-1">
+                                        <RichText
+                                            tagName="h3"
+                                            value={member.name}
+                                            onChange={(value) => updateMember(index, 'name', value)}
+                                            className="font-bold text-xl mb-2"
+                                            placeholder="Member Name"
+                                        />
+                                        <RichText
+                                            tagName="p"
+                                            value={member.description}
+                                            onChange={(value) => updateMember(index, 'description', value)}
+                                            className="text-base leading-relaxed"
+                                            placeholder="Enter description"
+                                        />
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </Fragment>
+        );
+    },
+    save({ attributes }) {
+        const { sectionTitle, teamMembers, member1Image, member2Image, member3Image, member1Email, member2Email, member3Email, member1LinkedIn, member2LinkedIn, member3LinkedIn } = attributes;
+
+        return (
+            <div className="team-section bg-[#F5F5F5] p-14" id="our-team">
+                <div className="container mx-auto">
+                    <h2 className="font-bold text-4xl mb-12">{sectionTitle}</h2>
 
                     <div className="space-y-12">
                         {teamMembers.map((member, index) => (
@@ -158,7 +238,7 @@ registerBlockType('people-studio/team-section', {
                                             index === 1 ? member2Image : member3Image
                                         }
                                         alt={`Member ${index + 1}`}
-                                        className="w-40 h-40 object-cover rounded-full mb-4 mx-auto"
+                                        className="w-60 h-60 object-cover rounded-full mb-4 mx-auto"
                                     />
                                     <div className="flex space-x-4">
                                         <a
@@ -189,89 +269,16 @@ registerBlockType('people-studio/team-section', {
 
                                 {/* Name and Description */}
                                 <div className="text-left md:text-left text-center flex-1">
-                                    <RichText
-                                        tagName="h3"
-                                        value={member.name}
-                                        onChange={(value) => updateMember(index, 'name', value)}
-                                        className="font-bold text-xl mb-2"
-                                        placeholder="Member Name"
-                                    />
-                                    <RichText
+                                    <h3 className="font-bold text-xl mb-2">{member.name}</h3>
+                                    <RichText.Content
                                         tagName="p"
                                         value={member.description}
-                                        onChange={(value) => updateMember(index, 'description', value)}
                                         className="text-base leading-relaxed"
-                                        placeholder="Enter description"
                                     />
                                 </div>
                             </div>
                         ))}
                     </div>
-                </div>
-            </Fragment>
-        );
-    },
-    save({ attributes }) {
-        const { sectionTitle, teamMembers, member1Image, member2Image, member3Image, member1Email, member2Email, member3Email, member1LinkedIn, member2LinkedIn, member3LinkedIn } = attributes;
-
-        return (
-            <div className="team-section bg-[#F5F5F5] p-14" id="our-team">
-                <h2 className="font-bold text-4xl text-center mb-12">{sectionTitle}</h2>
-
-                <div className="space-y-12">
-                    {teamMembers.map((member, index) => (
-                        <div
-                            className={`flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-14 ${index % 2 === 1 ? 'md:flex-row-reverse' : ''}`}
-                            key={index}
-                        >
-                            {/* Image and Socials */}
-                            <div className="flex flex-col items-center space-y-4 flex-1">
-                                <img
-                                    src={
-                                        index === 0 ? member1Image :
-                                        index === 1 ? member2Image : member3Image
-                                    }
-                                    alt={`Member ${index + 1}`}
-                                    className="w-40 h-40 object-cover rounded-full mb-4 mx-auto"
-                                />
-                                <div className="flex space-x-4">
-                                    <a
-                                        href={
-                                            index === 0 ? member1Email :
-                                            index === 1 ? member2Email : member3Email
-                                        }
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="bg-[#1C3145] text-white w-12 h-12 flex justify-center items-center rounded-full hover:bg-blue-500 transition duration-300 transform hover:scale-110"
-                                    >
-                                        <img src={`${peopleStudioData.templateUrl}/assets/png/icon-email.png`} alt="Email Icon" className="w-6 h-6" />
-                                    </a>
-
-                                    <a
-                                        href={
-                                            index === 0 ? member1LinkedIn :
-                                            index === 1 ? member2LinkedIn : member3LinkedIn
-                                        }
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="bg-[#1C3145] text-white w-12 h-12 flex justify-center items-center rounded-full hover:bg-blue-500 transition duration-300 transform hover:scale-110"
-                                    >
-                                        <img src={`${peopleStudioData.templateUrl}/assets/png/icon-linkedin.png`} alt="LinkedIn Icon" className="w-6 h-6" />
-                                    </a>
-                                </div>
-                            </div>
-
-                            {/* Name and Description */}
-                            <div className="text-left md:text-left text-center flex-1">
-                                <h3 className="font-bold text-xl mb-2">{member.name}</h3>
-                                <RichText.Content
-                                    tagName="p"
-                                    value={member.description}
-                                    className="text-base leading-relaxed"
-                                />
-                            </div>
-                        </div>
-                    ))}
                 </div>
             </div>
         );
