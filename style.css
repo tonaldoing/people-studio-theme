@@ -1,0 +1,27 @@
+/*
+Theme Name: People Studio
+Theme URI: https://www.linkedin.com/in/tomasvilas/
+Author: Tomás Vilas
+Author URI: https://www.linkedin.com/in/tomasvilas/
+Description: A custom WordPress theme for People Studio, a human resources company. The theme is designed for a corporate one-page landing website with a modern and user-friendly interface.
+Version: 1.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: people-studio
+*/
+
+/* Estilos para los links */
+.scroll-link a.active {
+    color: #3b82f6;
+}
+
+/**/
+
+#what-we-do > div,
+#our-services > div,
+#our-services > h2,
+#our-team > div {
+    max-width: 1180px;
+    margin-left: auto;
+    margin-right: auto;
+}
