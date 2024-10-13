@@ -25,10 +25,10 @@ Custom Blocks
 
 This theme includes several custom Gutenberg blocks for different sections of the site:
 
-  Hero Section: The main introduction block with customizable images and text.
-  Our Services Block: A flexible block for listing company services.
-  Team Section Block: Displays team members with their profile pictures, descriptions, and social links.
-  Footer: Customizable footer with company information and social links.
+      Hero Section: The main introduction block with customizable images and text.
+      Our Services Block: A flexible block for listing company services.
+      Team Section Block: Displays team members with their profile pictures, descriptions, and social links.
+      Footer: Customizable footer with company information and social links.
 
 Development
 Prerequisites
